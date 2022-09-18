@@ -1,4 +1,4 @@
-name: Django-app workflow
+name: API-YaMDB workflow
 
 on: [push]
 
@@ -15,6 +15,7 @@ jobs:
       run: | 
         python -m pip install --upgrade pip 
         pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
+        cd api-yamdb/
         pip install -r requirements.txt
     - name: Test with flake8 and django tests
       run: |
@@ -40,7 +41,7 @@ jobs:
           uses: docker/build-push-action@v3
           with:
             push: true
-            tags: johnneg/yamdb-final:latest
+            tags: johnneg/api_yamdb_final:latest
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
@@ -53,7 +54,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             # Выполняет pull образа с DockerHub
-            sudo docker pull johnneg/yamdb-final
+            sudo docker pull johnneg/api_yamdb_final
             #остановка всех контейнеров
             sudo docker stop $(sudo docker ps -a -q)
-            sudo docker run --rm -d -p 5000:5000 johnneg/yamdb-final
+            sudo docker run --rm -d -p 5000:5000 johnneg/api_yamdb_final
