@@ -62,10 +62,10 @@ class User(AbstractUser):
 
     @property
     def is_admin(self):
-        """Проверяет является ли пользователь администратором."""
+        """Проверяет - является ли пользователь администратором."""
         return self.role == User.ADMIN
 
     @property
     def is_moderator(self):
-        """Проверяет является ли пользователь модератором."""
+        """Проверяет - является ли пользователь модератором."""
         return self.role == User.MODERATOR
