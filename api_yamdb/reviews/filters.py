@@ -1,6 +1,6 @@
 from django_filters import CharFilter, FilterSet, ModelChoiceFilter
 
-from api_yamdb.reviews.models import Category, Genre, Title
+from .models import Category, Genre, Title
 
 
 class TitleFilter(FilterSet):
