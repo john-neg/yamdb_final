@@ -1,13 +1,19 @@
 version: '3.8'
+
+volumes:
+  static_value:
+  media_value:
+  postgres_data:
+
 services:
   db:
     image: postgres:13.0-alpine
     volumes:
-      - /var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
   web:
-    build: ../api_yamdb
+    image: johnneg/api_yamdb_final:latest
     restart: always
     volumes:
       - static_value:/app/static/
@@ -26,7 +32,3 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - web
-volumes:
-  static_value:
-  media_value:
-
