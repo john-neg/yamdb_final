@@ -2,8 +2,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
 
-from api_yamdb.common.models import PubDateModel
-from api_yamdb.users.models import User
+from ..common.models import PubDateModel
+from ..users.models import User
 
 
 class Category(models.Model):
