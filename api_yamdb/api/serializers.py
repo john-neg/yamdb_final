@@ -8,8 +8,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import AccessToken
 
-from reviews.models import Category, Comment, Genre, Review, Title
-from users.models import User
+from api_yamdb.reviews.models import Category, Comment, Genre, Review, Title
+from api_yamdb.users.models import User
 
 
 class AuthSignupSerializer(serializers.ModelSerializer):

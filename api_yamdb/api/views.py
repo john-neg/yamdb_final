@@ -6,10 +6,11 @@ from rest_framework.exceptions import NotFound, ParseError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from reviews.filters import TitleFilter
-from reviews.models import Category, Genre, Review, Title
-from users.exceptions import ConfirmationCodeIsIncorrectError, UserNotFound
-from users.models import User
+from api_yamdb.reviews.filters import TitleFilter
+from api_yamdb.reviews.models import Category, Genre, Review, Title
+from api_yamdb.users.exceptions import (ConfirmationCodeIsIncorrectError,
+                                        UserNotFound)
+from api_yamdb.users.models import User
 
 from .permissions import IsAdminOrSuperUser, IsOwnerOrModeratorOrAdmin
 from .serializers import (AuthSignupSerializer, CategoriesSerializer,
