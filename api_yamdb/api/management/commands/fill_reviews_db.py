@@ -1,9 +1,10 @@
 from csv import DictReader
 
+from django.core.management import BaseCommand
+
 from api_yamdb.reviews.models import (Category, Comment, Genre, Review, Title,
                                       TitleGenre)
 from api_yamdb.users.models import User
-from django.core.management import BaseCommand
 
 
 class Command(BaseCommand):
