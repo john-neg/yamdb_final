@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import AccessToken
 
-from reviews.models import Category, Genre, Title, Review, Comment
+from reviews.models import Category, Comment, Genre, Review, Title
 from users.models import User
 
 
@@ -57,16 +57,14 @@ class TokenSerializer(TokenObtainPairSerializer):
                 "no_active_account",
             )
 
-        data = {
+        if api_settings.UPDATE_LAST_LOGIN:
+            update_last_login(None, user)
+
+        return {
             "username": attrs[self.username_field],
             "confirmation_code": attrs["confirmation_code"],
             "token": str(self.get_token(user)),
         }
-
-        if api_settings.UPDATE_LAST_LOGIN:
-            update_last_login(None, user)
-
-        return data
 
     @classmethod
     def get_token(cls, user):
@@ -87,7 +85,7 @@ class UserSerializer(serializers.ModelSerializer):
             "bio",
             "role",
         )
-        lookup_field = 'username'
+        lookup_field = "username"
 
 
 class UserOwnerSerializer(serializers.ModelSerializer):
@@ -151,13 +149,10 @@ class TitlesSlugSerializer(TitlesSerializer):
     """Сериализатор для модели Post по slug"""
 
     category = serializers.SlugRelatedField(
-        queryset=Category.objects.all(),
-        slug_field='slug'
+        queryset=Category.objects.all(), slug_field="slug"
     )
     genre = serializers.SlugRelatedField(
-        queryset=Genre.objects.all(),
-        slug_field='slug',
-        many=True
+        queryset=Genre.objects.all(), slug_field="slug", many=True
     )
 
 
@@ -176,7 +171,7 @@ class ReviewsSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Валидация отзыва на произведение."""
-        if self.context.get("request").method == 'POST':
+        if self.context.get("request").method == "POST":
             author = self.context.get("request").user
             title = self.context.get("title")
             if Review.objects.filter(title=title, author=author).exists():

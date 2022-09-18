@@ -1,6 +1,6 @@
 from django.contrib.auth.backends import ModelBackend
 
-from .exceptions import ConfirmationCodeIsIncorrect, UserNotFound
+from .exceptions import ConfirmationCodeIsIncorrectError, UserNotFound
 from .models import User
 
 
@@ -27,7 +27,7 @@ class Backend(ModelBackend):
             elif confirmation_code and not user.check_confirmation_code(
                 confirmation_code
             ):
-                raise ConfirmationCodeIsIncorrect
+                raise ConfirmationCodeIsIncorrectError
             if self.user_can_authenticate(user):
                 return user
 

@@ -1,28 +1,22 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status, viewsets, filters
-
-from rest_framework.decorators import api_view, action
-from rest_framework.exceptions import ParseError, NotFound
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action, api_view
+from rest_framework.exceptions import NotFound, ParseError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from reviews.filters import TitleFilter
-from reviews.models import Category, Genre, Title, Review
-from users.exceptions import ConfirmationCodeIsIncorrect, UserNotFound
+from reviews.models import Category, Genre, Review, Title
+from users.exceptions import ConfirmationCodeIsIncorrectError, UserNotFound
 from users.models import User
+
 from .permissions import IsAdminOrSuperUser, IsOwnerOrModeratorOrAdmin
-from .serializers import (
-    AuthSignupSerializer,
-    TokenSerializer,
-    UserSerializer,
-    CategoriesSerializer,
-    GenresSerializer,
-    CommentsSerializer,
-    ReviewsSerializer,
-    TitlesSerializer,
-    TitlesSlugSerializer,
-)
+from .serializers import (AuthSignupSerializer, CategoriesSerializer,
+                          CommentsSerializer, GenresSerializer,
+                          ReviewsSerializer, TitlesSerializer,
+                          TitlesSlugSerializer, TokenSerializer,
+                          UserSerializer)
 from .viewsets import ListCreateDestroyModelViewSet
 
 
@@ -49,7 +43,7 @@ def auth_token(request):
                 {"token": serializer.validated_data.get("token")},
                 status=status.HTTP_200_OK,
             )
-    except ConfirmationCodeIsIncorrect:
+    except ConfirmationCodeIsIncorrectError:
         raise ParseError
     except UserNotFound:
         raise NotFound
@@ -143,8 +137,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return (IsAuthenticatedOrReadOnly(),)
 
     def get_title(self):
-        title = get_object_or_404(Title, pk=self.kwargs.get("title_id"))
-        return title
+        return get_object_or_404(Title, pk=self.kwargs.get("title_id"))
 
     def get_queryset(self):
         return self.get_title().reviews.all()
@@ -164,8 +157,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return (IsAuthenticatedOrReadOnly(),)
 
     def get_reviews(self):
-        reviews = get_object_or_404(Review, pk=self.kwargs.get("review_id"))
-        return reviews
+        return get_object_or_404(Review, pk=self.kwargs.get("review_id"))
 
     def get_queryset(self):
         return self.get_reviews().comments.all()
