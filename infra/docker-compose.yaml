@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   db:
     image: postgres:13.0-alpine
@@ -27,7 +26,6 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - web
-
 volumes:
   static_value:
   media_value:
