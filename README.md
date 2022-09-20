@@ -49,31 +49,31 @@ DB_PORT=5432
 
 ```sh
 cd infra
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### Применения миграций
 
 ```sh
-docker-compose exec web python manage.py migrate
+docker compose exec web python manage.py migrate
 ```
 
 ### Загрузка данных в БД
 
 ```sh
-docker-compose exec web python manage.py manage.py loaddata db.json
+docker compose exec web python manage.py loaddata db.json
 ```
 
 ### Создание суперпользователя
 
 ```sh
-docker-compose exec web python manage.py createsuperuser --username=admin --email=admin@local.host
+docker compose exec web python manage.py createsuperuser --username=admin --email=admin@local.host
 ```
 
 ### Сбор статики в /static/
 
 ```sh
-docker-compose exec web python manage.py collectstatic --no-input
+docker compose exec web python manage.py collectstatic --no-input
 ```
 
 ---
