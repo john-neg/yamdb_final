@@ -4,11 +4,16 @@
 
 База данных произведений _(Practicum by Yandex education project)_
 
+Проект доступен по адресу - http://130.193.48.5/redoc/
+
 ## Технологии:
 
 YaMDB учебный проект базирующийся на:
 - Python 3.7
 - Django 2.2.28
+- Docker 20.10.18
+- Nginx 1.21.3
+- Postgres - 13.0
 
 ## Описание:
 
